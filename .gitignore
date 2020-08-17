@@ -28,7 +28,10 @@ nb-configuration.xml
 # patch
 *.orig
 *.rej
-
+.classpath
+.factorypath
+.project
+.settings
 # Maven
 target/
 deployments/
