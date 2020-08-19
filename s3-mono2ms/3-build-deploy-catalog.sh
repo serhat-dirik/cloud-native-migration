@@ -16,5 +16,5 @@ oc label deployment catalog-database app.openshift.io/runtime=postgresql --overw
 oc label deployment catalog app.kubernetes.io/part-of=catalog --overwrite
 oc label deployment catalog-database app.kubernetes.io/part-of=catalog --overwrite
 oc annotate deployment catalog app.openshift.io/connects-to=catalog-database --overwrite
-oc annotate deployment catalog app.openshift.io/vcs-uri=https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m1-labs.git --overwrite
-oc annotate deployment catalog app.openshift.io/vcs-ref=ocp-4.5 --overwrite
+oc annotate deployment catalog app.openshift.io/vcs-uri=https://github.com/serhat-dirik/cloud-native-migration.git --overwrite
+oc annotate deployment catalog app.openshift.io/vcs-ref=master --overwrite

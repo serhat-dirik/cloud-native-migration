@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      name: coolstore-ui
+      namespace: cn-microservices
+      labels:
+        project: coolstore-ui
+        version: 1.0.0
+        provider: nodeshift
+        app: coolstore-ui
+        app.kubernetes.io/name: nodejs
+        app.kubernetes.io/component: coolstore-ui
+        app.kubernetes.io/instance: coolstore-ui
+        app.openshift.io/runtime: nodejs
+      annotations:
+        nodeshift/git-branch: master
+        nodeshift/git-commit: 70be9eeec7f41fcfd301400b09371543a8b1190c
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 2
+      selector:
+        app: coolstore-ui
+        project: coolstore-ui
+        provider: nodeshift
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - coolstore-ui
+            from:
+              kind: ImageStreamTag
+              namespace: cn-microservices
+              name: 'coolstore-ui:latest'
+      template:
+        metadata:
+          labels:
+            project: coolstore-ui
+            version: 1.0.0
+            provider: nodeshift
+            app: coolstore-ui
+          annotations:
+            nodeshift/git-branch: master
+            nodeshift/git-commit: 70be9eeec7f41fcfd301400b09371543a8b1190c
+        spec:
+          containers:
+            - image: coolstore-ui
+              name: coolstore-ui
+              securityContext:
+                privileged: false
+              ports:
+                - containerPort: 8080
+                  name: http
+                  protocol: TCP
+              env: []
+  - apiVersion: v1
+    kind: Service
+    spec:
+      selector:
+        project: coolstore-ui
+        provider: nodeshift
+      ports:
+        - protocol: TCP
+          port: 8080
+          targetPort: 8080
+          name: http
+      type: ClusterIP
+    metadata:
+      name: coolstore-ui
+      namespace: cn-microservices
+      labels:
+        project: coolstore-ui
+        version: 1.0.0
+        provider: nodeshift
+        app.kubernetes.io/name: nodejs
+        app.kubernetes.io/component: coolstore-ui
+        app.kubernetes.io/instance: coolstore-ui
+        app.openshift.io/runtime: nodejs
+      annotations:
+        nodeshift/git-branch: master
+        nodeshift/git-commit: 70be9eeec7f41fcfd301400b09371543a8b1190c
